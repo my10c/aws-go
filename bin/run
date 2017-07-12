@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ -z $GOPATH ]] ; then
+	echo "$(basename $0): GOPATH was not set!"
+	exit 1
+else
+	binDir=${GOPATH}/src/github.com/my10c/aws-go/bin
+	go build -i -v  -ldflags '-w -s' -o ${binDir}/checkit github.com/my10c/aws-go/check-it
+	${binDir}/checkit
+	exit $?
+fi

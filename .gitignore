@@ -1,0 +1,8 @@
+etc/*
+glide.lock
+glide.yaml
+vendor/*
+check-it/*
+*~
+*.swp
+*.swo
