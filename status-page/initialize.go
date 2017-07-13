@@ -122,12 +122,14 @@ func config(argv...string) map[string]string {
 		fmt.Printf("Following keys are missing in the configration files: %s\n", missingKeys)
 		os.Exit(2)
 	}
+	dictCfg["mode"] = argv[1]
 	return dictCfg
 }
 
 // Function to process the given args
 func Init() map[string]string {
 	var myConfigFile stringFlag
+	var myMode stringFlag
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "%s\n", myInfo)
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", myProgname)
@@ -136,6 +138,7 @@ func Init() map[string]string {
 	version := flag.Bool("version", false, "Prints current version and exit.")
 	setup := flag.Bool("setup", false, "Show the setup information and exit.")
 	flag.Var(&myConfigFile, "config", "Configuration file to be used.")
+	flag.Var(&myMode, "mode", "Mode Html (default) or text)")
 	flag.Parse()
 	if *version {
 		fmt.Printf("%s\n", myVersion)
@@ -148,5 +151,8 @@ func Init() map[string]string {
 	if !myConfigFile.set{
 		Help()
 	}
-	return config(myConfigFile.value)
+	if !myMode.set{
+		myMode.Set("html")
+	}
+	return config(myConfigFile.value, myMode.value)
 }

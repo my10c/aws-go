@@ -38,24 +38,33 @@
 package main
 
 import (
-	"os"
-	"strconv"
+	"fmt"
+	"sort"
 )
 
-type instStatus struct {
-	id		int
-	status	string
+func textStatus(statusMap map[string][]*instStatus) {
+	// sort the main map
+	var workList []string
+	for key, _ := range statusMap {
+		workList = append(workList, key)
+	}
+	sort.Strings(workList)
+	// start of the html page generation
+	for cnt := range workList {
+		serviceName := workList[cnt]
+		serviceStatus := statusMap[serviceName]
+		// sort the instances in this service
+		sort.Slice(serviceStatus, func(i, j int) bool {
+			return serviceStatus[i].id < serviceStatus[j].id
+		})
+		textBody(serviceName, serviceStatus)
+		fmt.Printf("\n")
+	}
 }
 
-func main() {
-	cfgMap := Init()
-	statusMap := ec2status(cfgMap["aws_file"], cfgMap["aws_profile"], cfgMap["aws_region"])
-	cfgWidth, _ := strconv.Atoi(cfgMap["image_width"])
-	cfgHeight, _ := strconv.Atoi(cfgMap["image_height"])
-	if cfgMap["mode"] == "text" {
-		textStatus(statusMap)
-	}	else {
-		htmlStatus(cfgMap["imaged_dir"], cfgWidth, cfgHeight, statusMap)
+func textBody(tagBase string, status []*instStatus) {
+	fmt.Printf("%s : ", tagBase)
+	for cnt, _ := range status {
+		fmt.Printf("%d:%s - ", status[cnt].id, status[cnt].status)
 	}
-	os.Exit(0)
 }
