@@ -5,7 +5,7 @@ if [[ -z $GOPATH ]] ; then
 	exit 1
 else
 	binDir=${GOPATH}/src/github.com/my10c/aws-go/bin
-	go build -i -v  -ldflags '-w -s' -o ${binDir}/checkit github.com/my10c/aws-go/check-it
-	${binDir}/checkit
+	go build -i -v  -ldflags '-w -s' -o ${binDir}/status-page github.com/my10c/aws-go/status-page
+	${binDir}/status-page $*
 	exit $?
 fi

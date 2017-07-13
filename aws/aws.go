@@ -45,7 +45,7 @@ import (
 )
 
 // Function to get the AWS credential based on the given profile
-func getAwsCredentials(credFile string, profile string, region string) *aws.Config {
+func awsCred(credFile string, profile string, region string) *aws.Config {
 	config := aws.Config{}
 	config.Credentials = credentials.NewSharedCredentials(credFile, profile)
 	config.Region = aws.String(region)
@@ -53,11 +53,7 @@ func getAwsCredentials(credFile string, profile string, region string) *aws.Conf
 	return &config
 }
 
-// Function to initialize an AWS session
-func InitSession(credFile string, profile string, region string) (*session.Session, error) {
-	sess, err := session.NewSession(getAwsCredentials(credFile, profile, region))
-	if err !=  nil {
-		return nil, err
-	}
-	return sess, nil
+// Function to initialize an AWS session with credential in the given file for the given profile and region
+func InitCredFile(credFile string, profile string, region string) (*session.Session, error) {
+	return session.NewSession(awsCred(credFile, profile, region))
 }

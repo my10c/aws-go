@@ -93,12 +93,15 @@ func (ec2Ptr *Ec2) info() {
 	if err != nil {
 		myUtils.ExitIfError(err)
 	}
+	var instancePubIP = "none"
 	for idx := range resp.Reservations {
 		for instIdx := range resp.Reservations[idx].Instances {
 			instanceID := *resp.Reservations[idx].Instances[instIdx].InstanceId
 			instancePrvIP := *resp.Reservations[idx].Instances[instIdx].PrivateIpAddress
-			instancePubIP := *resp.Reservations[idx].Instances[instIdx].PublicIpAddress
-			var instanceTag string
+			if resp.Reservations[idx].Instances[instIdx].PublicIpAddress != nil {
+				instancePubIP = *resp.Reservations[idx].Instances[instIdx].PublicIpAddress
+			}
+			var instanceTag = "none"
 			for tagIdx := range resp.Reservations[idx].Instances[instIdx].Tags {
 				if *resp.Reservations[idx].Instances[instIdx].Tags[tagIdx].Key == "Name" {
 					instanceTag = *resp.Reservations[idx].Instances[instIdx].Tags[tagIdx].Value
