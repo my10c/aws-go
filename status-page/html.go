@@ -81,7 +81,7 @@ func htmlBody(tagBase, imageDir string, height, width int, status []*instStatus)
 	fmt.Printf("<td>%s</td>\n", tagBase)
 	fmt.Printf("<td></td>\n")
 	for cnt, _ := range status {
-		fmt.Printf("<td>%d></td>\n", status[cnt].id)
+		fmt.Printf("<td>%d</td>\n", status[cnt].id)
 		switch status[cnt].status {
 			case "green":
 				fmt.Printf("<td><img src=\"%s/green.jpg\" height=\"%d\" width=\"%d\"/></td>\n", imageDir, height, width)
