@@ -25,13 +25,14 @@
 //
 // Author		:	Luc Suryo <luc@badassops.com>
 //
-// Version		:	0.1
+// Version		:	0.2
 //
-// Date			:	Jul 12, 2017
+// Date			:	Jul 13, 2017
 //
 // History	:
 // 	Date:			Author:		Info:
 //	Jul 12, 2017	LIS			First relase
+//	Jul 13, 2017	LIS			Added refresh and css configs
 //
 // TODO:
 
@@ -52,10 +53,11 @@ func main() {
 	statusMap := ec2status(cfgMap["aws_file"], cfgMap["aws_profile"], cfgMap["aws_region"])
 	cfgWidth, _ := strconv.Atoi(cfgMap["image_width"])
 	cfgHeight, _ := strconv.Atoi(cfgMap["image_height"])
+	cfgRefresh, _ := strconv.Atoi(cfgMap["refresh_secs"])
 	if cfgMap["mode"] == "text" {
 		textStatus(statusMap)
 	}	else {
-		htmlStatus(cfgMap["imaged_dir"], cfgWidth, cfgHeight, statusMap)
+		htmlStatus(cfgMap["imaged_dir"], cfgMap["css_file"], cfgRefresh, cfgWidth, cfgHeight, statusMap)
 	}
 	os.Exit(0)
 }

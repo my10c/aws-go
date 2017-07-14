@@ -23,13 +23,14 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Version		:	0.1
+// Version		:	0.2
 //
-// Date			:	Jul 12, 2017
+// Date			:	Jul 13, 2017
 //
 // History	:
 // 	Date:			Author:		Info:
 //	Jul 12, 2017	LIS			First release
+//	Jul 13, 2017	LIS			Added refresh and css configs with their default value
 //
 // TODO:
 
@@ -46,7 +47,9 @@ import (
 const (
 	width		int = 20
 	height		int = 20
+	refresh		int = 60 // 1 min
 	imgDir		string = "images"
+	cssFile		string = "css/styles.css"
 	awsProfile	string = "default"
 	awsRegion	string = "us-east-1"
 )
@@ -77,6 +80,8 @@ func init() {
 	defaultValues["image_width"]	= strconv.Itoa(width)
 	defaultValues["image_height"]	= strconv.Itoa(height)
 	defaultValues["imaged_dir"]		= imgDir
+	defaultValues["refresh_secs"]	= strconv.Itoa(refresh)
+	defaultValues["css_file"]		= cssFile
 	defaultValues["aws_profile"]	= awsProfile
 	defaultValues["aws_region"]		= awsRegion
 }

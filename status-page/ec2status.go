@@ -80,7 +80,7 @@ func ec2status(credFile, profileName, region string) map[string][]*instStatus {
 		tagBase := baseRegex.ReplaceAllString(tag, "")
 		tagID, err := strconv.Atoi(idRegex.ReplaceAllString(tag, ""))
 		if err != nil {
-			tagID = 0
+			tagID = 1
 		}
 		currInstStatus := &instStatus{
 			id:		tagID,

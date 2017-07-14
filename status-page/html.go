@@ -25,13 +25,14 @@
 //
 // Author		:	Luc Suryo <luc@badassops.com>
 //
-// Version		:	0.1
+// Version		:	0.2
 //
-// Date			:	Jul 12, 2017
+// Date			:	Jul 13, 2017
 //
 // History	:
 // 	Date:			Author:		Info:
 //	Jul 12, 2017	LIS			First relase
+//	Jul 13, 2017	LIS			Added some meta tag and auto-refresh
 //
 // TODO:
 
@@ -40,9 +41,10 @@ package main
 import (
 	"fmt"
 	"sort"
+	"time"
 )
 
-func htmlStatus(imageDir string, height, width int, statusMap map[string][]*instStatus) {
+func htmlStatus(imageDir, cssFile string, refresh, height, width int, statusMap map[string][]*instStatus) {
 	// sort the main map
 	var workList []string
 	for key, _ := range statusMap {
@@ -50,7 +52,7 @@ func htmlStatus(imageDir string, height, width int, statusMap map[string][]*inst
 	}
 	sort.Strings(workList)
 	// start of the html page generation
-	htmlHeader()
+	htmlHeader(cssFile, refresh)
 	for cnt := range workList {
 		serviceName := workList[cnt]
 		serviceStatus := statusMap[serviceName]
@@ -63,8 +65,23 @@ func htmlStatus(imageDir string, height, width int, statusMap map[string][]*inst
 	htmlFooter()
 }
 
-func htmlHeader() {
+func htmlHeader(cssFile string, refresh int) {
 	fmt.Printf("<html>\n")
+	fmt.Printf("<head>\n")
+	fmt.Printf("<meta charset=\"UTF-8\">\n")
+	fmt.Printf("<meta name=\"description\" content=\"Instance Health Status\">\n")
+	fmt.Printf("<meta name=\"authors\" content=\"Luc Suryo\">\n")
+	fmt.Printf("<meta http-equiv=\"refresh\" content=\"%d\">\n", refresh)
+	fmt.Printf("<link rel=\"stylesheet\" href=\"%s\">\n", cssFile)
+	fmt.Printf("</head>\n")
+	fmt.Printf("<body>\n")
+	// code to display last refresh
+	fmt.Printf("<h5>Generated on %s\n", time.Now().Format(time.UnixDate))
+	fmt.Printf("&nbsp;&nbsp;Last Refresh : <span id=\"date\" /><br>\n")
+	fmt.Printf("<script>\n")
+	fmt.Printf("\tdocument.getElementById(\"date\").innerHTML = Date();\n")
+	fmt.Printf("</script></h5>\n")
+	// start of table
 	fmt.Printf("<table>\n")
 	fmt.Printf("<thead>\n")
 	fmt.Printf("<tr>\n")
@@ -99,5 +116,6 @@ func htmlBody(tagBase, imageDir string, height, width int, status []*instStatus)
 func htmlFooter() {
 	fmt.Printf("</tbody>\n")
 	fmt.Printf("</table>\n")
+	fmt.Printf("</body>\n")
 	fmt.Printf("</html>\n")
 }
