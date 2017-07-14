@@ -54,10 +54,14 @@ func main() {
 	cfgWidth, _ := strconv.Atoi(cfgMap["image_width"])
 	cfgHeight, _ := strconv.Atoi(cfgMap["image_height"])
 	cfgRefresh, _ := strconv.Atoi(cfgMap["refresh_secs"])
+	var cgiScript string
+	if cfgMap["allow_cgi"] == "yes" {
+		cgiScript = cfgMap["cgi_script"]
+	}
 	if cfgMap["mode"] == "text" {
 		textStatus(statusMap)
 	}	else {
-		htmlStatus(cfgMap["imaged_dir"], cfgMap["css_file"], cfgRefresh, cfgWidth, cfgHeight, statusMap)
+		htmlStatus(cfgMap["imaged_dir"], cfgMap["css_file"], cfgRefresh, cfgWidth, cfgHeight, statusMap, cgiScript)
 	}
 	os.Exit(0)
 }

@@ -84,4 +84,6 @@ func init() {
 	defaultValues["css_file"]		= cssFile
 	defaultValues["aws_profile"]	= awsProfile
 	defaultValues["aws_region"]		= awsRegion
+	defaultValues["allow_cgi"]		= "no"
+	defaultValues["cgi_script"]		= ""
 }

@@ -2,9 +2,11 @@ status-page:
   image_width: "20"
   image_height: "20"
   imaged_dir: "images"
-  css_file: css/styles.css
-  refresh_secs: 60
+  css_file: "css/styles.css"
+  refresh_secs: "60"
   aws_profile: "default"
   aws_region: "us-east-1"
   aws_file: "/etc/badassops/aws"
-    
+  allow_cgi: "yes"
+# make sure to setup your web server to serve CGI!
+  cgi_script: "/cgi-bin/update_status.cgi"

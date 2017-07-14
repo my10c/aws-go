@@ -44,7 +44,7 @@ import (
 	"time"
 )
 
-func htmlStatus(imageDir, cssFile string, refresh, height, width int, statusMap map[string][]*instStatus) {
+func htmlStatus(imageDir, cssFile string, refresh, height, width int, statusMap map[string][]*instStatus, cgiScript string) {
 	// sort the main map
 	var workList []string
 	for key, _ := range statusMap {
@@ -62,7 +62,7 @@ func htmlStatus(imageDir, cssFile string, refresh, height, width int, statusMap 
 		})
 		htmlBody(serviceName, imageDir, height, width, serviceStatus)
 	}
-	htmlFooter()
+	htmlFooter(cgiScript)
 }
 
 func htmlHeader(cssFile string, refresh int) {
@@ -72,6 +72,13 @@ func htmlHeader(cssFile string, refresh int) {
 	fmt.Printf("<meta name=\"description\" content=\"Instance Health Status\">\n")
 	fmt.Printf("<meta name=\"authors\" content=\"Luc Suryo\">\n")
 	fmt.Printf("<meta http-equiv=\"refresh\" content=\"%d\">\n", refresh)
+	// set to no cache fro know browsers
+	fmt.Printf("<meta http-equiv=\"cache-control\" content=\"max-age=0\"/>\n")
+	fmt.Printf("<meta http-equiv=\"cache-control\" content=\"no-cache\"/>\n")
+	fmt.Printf("<meta http-equiv=\"expires\" content=\"0\"/>\n")
+	fmt.Printf("<meta http-equiv=\"expires\" content=\"Tue, 01 Jan 1980 1:00:00 GMT\"/>\n")
+	fmt.Printf("<meta http-equiv=\"pragma\" content=\"no-cache\" />\n")
+	// CSS
 	fmt.Printf("<link rel=\"stylesheet\" href=\"%s\">\n", cssFile)
 	fmt.Printf("</head>\n")
 	fmt.Printf("<body>\n")
@@ -110,12 +117,17 @@ func htmlBody(tagBase, imageDir string, height, width int, status []*instStatus)
 				fmt.Printf("<td><img src=\"%s/green.jpg\" height=\"%d\" width=\"%d\"/></td>\n", imageDir, height, width)
 		}
 	}
-	fmt.Printf("<tr>\n")
+	fmt.Printf("</tr>\n")
 }
 
-func htmlFooter() {
+func htmlFooter(cgiScript string) {
 	fmt.Printf("</tbody>\n")
 	fmt.Printf("</table>\n")
+	if len(cgiScript) > 0 {
+		fmt.Printf("\n<form method=\"get\" action=\"%s\">\n", cgiScript)
+		fmt.Printf("\t<input type=\"submit\" value=\"Update Now\" name=\"refresh\">\n")
+		fmt.Printf("</form>\n\n")
+	}
 	fmt.Printf("</body>\n")
 	fmt.Printf("</html>\n")
 }
