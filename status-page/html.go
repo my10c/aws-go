@@ -71,7 +71,10 @@ func htmlHeader(cssFile string, refresh int) {
 	fmt.Printf("<meta charset=\"UTF-8\">\n")
 	fmt.Printf("<meta name=\"description\" content=\"Instance Health Status\">\n")
 	fmt.Printf("<meta name=\"authors\" content=\"Luc Suryo\">\n")
-	fmt.Printf("<meta http-equiv=\"refresh\" content=\"%d\">\n", refresh)
+	// auto refresh only if refresh was not set to 0
+	if refresh > 0 {
+		fmt.Printf("<meta http-equiv=\"refresh\" content=\"%d\">\n", refresh)
+	}
 	// set to no cache for known browsers
 	fmt.Printf("<meta http-equiv=\"cache-control\" content=\"max-age=0\"/>\n")
 	fmt.Printf("<meta http-equiv=\"cache-control\" content=\"no-cache\"/>\n")
