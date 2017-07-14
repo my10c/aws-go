@@ -72,7 +72,7 @@ func htmlHeader(cssFile string, refresh int) {
 	fmt.Printf("<meta name=\"description\" content=\"Instance Health Status\">\n")
 	fmt.Printf("<meta name=\"authors\" content=\"Luc Suryo\">\n")
 	fmt.Printf("<meta http-equiv=\"refresh\" content=\"%d\">\n", refresh)
-	// set to no cache fro know browsers
+	// set to no cache for known browsers
 	fmt.Printf("<meta http-equiv=\"cache-control\" content=\"max-age=0\"/>\n")
 	fmt.Printf("<meta http-equiv=\"cache-control\" content=\"no-cache\"/>\n")
 	fmt.Printf("<meta http-equiv=\"expires\" content=\"0\"/>\n")
@@ -84,10 +84,15 @@ func htmlHeader(cssFile string, refresh int) {
 	fmt.Printf("<body>\n")
 	// code to display last refresh
 	fmt.Printf("<h5>Generated on %s\n", time.Now().Format(time.UnixDate))
-	fmt.Printf("&nbsp;&nbsp;Last Refresh : <span id=\"date\" /><br>\n")
-	fmt.Printf("<script>\n")
-	fmt.Printf("\tdocument.getElementById(\"date\").innerHTML = Date();\n")
-	fmt.Printf("</script></h5>\n")
+	// auto refresh only if refresh was not set to 0
+	if refresh > 0 {
+		fmt.Printf("&nbsp;&nbsp;Last Refresh : <span id=\"date\" /><br>\n")
+		fmt.Printf("<script>\n")
+		fmt.Printf("\tdocument.getElementById(\"date\").innerHTML = Date();\n")
+		fmt.Printf("</script></h5>\n")
+	} else {
+		fmt.Printf("</h5>\n")
+	}
 	// start of table
 	fmt.Printf("<table>\n")
 	fmt.Printf("<thead>\n")
